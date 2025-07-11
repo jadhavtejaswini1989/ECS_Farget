@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo Installing Maven...
+      - wget -q https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz  # Updated Maven version
+      - tar -xzf apache-maven-3.9.9-bin.tar.gz
+      - mv apache-maven-3.9.9 /opt/maven
+      - export PATH=/opt/maven/bin:$PATH
+      - echo Maven installed successfully.
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - pwd
+      - ls -al
+      - mvn clean package -DskipTests  # Run from root directory where pom.xml is
+      - mv target/*.war ROOT.war
+
+artifacts:
+  files:
+    - ROOT.war  # Your war file will be generated in the 'target' folder.
+
